@@ -133,14 +133,14 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 Each service contains its own `Dockerfile` and builds into a standalone image.
 
 ### Docker Hub Image Repositories
-* **Authentication Service:** `ananyaabhat/student-service:latest`
+* **Authentication Service:** `soumyasurpur/authentication-service:latest`
 * **Student Service:** `ananyaabhat/student-service:latest`
 * **Internship Service:** `bhagyashree028/internship-service:v1`
 * **Application Service:** `priya721k/application-service:v1`
 
 #### Pull pre-built images from Docker Hub:
 ```bash
-docker pull 
+docker pull soumyasurpur/authentication-service:latest
 docker pull ananyaabhat/student-service:latest
 docker pull bhagyashree028/internship-service:v1
 docker pull priya721k/application-service:v1
