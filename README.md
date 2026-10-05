@@ -271,19 +271,59 @@ Load testing is conducted against target service endpoints using **Locust** whil
 
 ---
 
-## Graphs:
-### Concurrent requests vs Average Response Time
+## Performance Analysis
+
+Load tests were run against the three microservices (Student, Internship, Application) at *1, 2, 4, 8 and 16 concurrent users*. Four metrics were recorded: average response time, throughput, CPU utilization and memory utilization.
+
+### 1. Concurrent Requests vs. Average Response Time
 <img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/cac14af2-0a10-42c0-b0fd-27ca4f8ad4b5" />
 
-### Concurrent requests vs Throughput
+![Response Time](1_response_time.png)
+
+| Service     | 1 user  | 16 users | Change   |
+|-------------|---------|----------|----------|
+| Student     | 10.53 ms | 10.40 ms | ~ -1%   |
+| Internship  | 9.25 ms  | 11.74 ms | ~ +27%  |
+| Application | 7.98 ms  | 10.51 ms | ~ +32%  |
+
+- *Student Service* is the most stable. Its latency stays at about 10.2-10.5 ms across all loads.
+- *Internship Service* is flat up to 4 users, then jumps from 9.4 ms to 11.2 ms at 8 users and keeps rising. This is the first sign of contention.
+- *Application Service* starts fastest (~8 ms) and degrades gradually and steadily as load increases.
+- All services stay *under 12 ms* even at 16 users, so the system remains very responsive.
+
+### 2. Concurrent Requests vs. Throughput
 <img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/0ebde50d-b0ae-4abf-85ee-a09a0d133f3d" />
 
-### Concurrent requests vs CPU Utilization
+- Throughput scales *almost linearly* with concurrency, from ~3 RPS at 1 user to ~50 RPS at 16 users for all three services.
+- The three services are nearly identical here. Internship is marginally ahead at 4 and 8 users.
+- There is *no saturation point* in the tested range. The services can handle more load than was applied.
+
+### 3. Concurrent Requests vs. CPU Utilization
 <img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/827a3d95-a808-4176-baf2-b740a251f362" />
 
-### Concurrent requests vs Memory Utilization
+
+- *Internship Service* is the most CPU-hungry. It grows from ~1.7% to ~19.2% and has the steepest slope after 4 users.
+- *Application Service* follows a similar trend, reaching ~16.3% at 16 users.
+- *Student Service* peaks at ~5% (4 users) and then stays flat at ~3.9%, so it is the most lightweight service.
+- No service goes above ~20%, so there is a lot of CPU headroom.
+
+### 4. Concurrent Requests vs. Memory Utilization
 <img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/f2d6e345-abed-4220-a5fb-be550823b429" />
 
+- All services use roughly *53-56 MB*, and the total variation is only about 3 MB (~5%).
+- *Student Service* is constant at ~55.1 MB.
+- *Internship Service* grows slowly from ~54 MB to ~56.1 MB, the highest of the three.
+- *Application Service* rises to ~55 MB at 4 users, then drops back to ~54.2 MB.
+- Memory differences are negligible. The y-axis is zoomed in, which makes the variations look larger than they are.
+- 
+---
+## Key Performance Insights
+1. Throughput Scales Linearly with Concurrency - As concurrent users increase from 1 (W1) to 16 (W5), throughput increases nearly 17x (from 3 RPS to 50.4 RPS).   This shows that your FastAPI microservice stack and Docker network handle concurrent requests efficiently without hitting a early performance bottleneck.
+2. Extremely Low Latency Degradation - Average response time remains virtually flat, increasing by only ~2.5 ms under 16x load (from 7.98 ms at W1 to 10.51 ms at W5).   The asynchronous nature of FastAPI/Uvicorn allows request queuing and execution to stay highly responsive under load.  
+3.  Resource Utilization Efficiency - CPU Utilization: Scales predictably with request volume, rising from 2.10% at baseline up to 16.31% at 16 concurrent users.   Memory Utilization: Remains exceptionally stable around ~53–55 MB across all test runs. SQLite in memory/file mode combined with lightweight Python processes keeps the overall container footprint minimal.
+4. Zero Failures Across All WorkloadsFailed Requests = 0 across all 5 test levels, demonstrating 100% service availability and stability under load.  
+
+---
 
 ## Checkpoint 5: Analyze and Present the Results
 
@@ -296,6 +336,9 @@ Student Service        ──► students.db     ──► Volume: student_data
 Internship Service     ──► internships.db  ──► Volume: internship_data
 Application Service    ──► applications.db ──► Volume: application_data
 ```
+
+---
+
 
 ### Useful Management Commands
 
@@ -319,15 +362,7 @@ Application Service    ──► applications.db ──► Volume: application_d
   ```bash
   docker compose down -v
   ```
-
 ---
-## Key Performance Insights
-1. Throughput Scales Linearly with ConcurrencyAs concurrent users increase from 1 (W1) to 16 (W5), throughput increases nearly 17x (from 3 RPS to 50.4 RPS).   This shows that your FastAPI microservice stack and Docker network handle concurrent requests efficiently without hitting a early performance bottleneck.
-2. Extremely Low Latency DegradationAverage response time remains virtually flat, increasing by only ~2.5 ms under 16x load (from 7.98 ms at W1 to 10.51 ms at W5).   The asynchronous nature of FastAPI/Uvicorn allows request queuing and execution to stay highly responsive under load.  
-3.  Resource Utilization EfficiencyCPU Utilization: Scales predictably with request volume, rising from 2.10% at baseline up to 16.31% at 16 concurrent users.   Memory Utilization: Remains exceptionally stable around ~53–55 MB across all test runs. SQLite in memory/file mode combined with lightweight Python processes keeps the overall container footprint minimal.
-4. Zero Failures Across All WorkloadsFailed Requests = 0 across all 5 test levels, demonstrating 100% service availability and stability under load.  
-
-
 
 ---
 
