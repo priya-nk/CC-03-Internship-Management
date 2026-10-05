@@ -3,9 +3,9 @@ services:
   authentication:
     image: soumyasurpur/auth-service:latest
     ports:
-      - "8004:8000"
+      - "8001:8000"
     environment:
-      DATABASE_URL: sqlite:////data/applications.db
+      DATABASE_URL: sqlite:////data/authentication.db
     volumes:
       - application_data:/data
 

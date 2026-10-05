@@ -202,7 +202,7 @@ Load testing is conducted against target service endpoints using **Locust** whil
 
 2. Run Locust against the Authentication Service:
    ```bash
-   locust -f locustfile.py --host http://localhost:8001
+   locust -f authentication_locustfile.py --host http://localhost:8001
    ```
 
 3. Open [http://localhost:8089](http://localhost:8089) in your browser and execute tests across 5 concurrency levels (1, 2, 4, 8, and 16 concurrent users).
@@ -215,15 +215,15 @@ Load testing is conducted against target service endpoints using **Locust** whil
 5. Repeat steps 2 to 4 for
    Student service:
       ```bash
-     locust -f locustfile.py --host http://localhost:8002
+     locust -f student_locustfile.py --host http://localhost:8002
      ```
    Internship service:
       ```bash
-     locust -f locustfile.py --host http://localhost:8003
+     locust -f intership_locustfile.py --host http://localhost:8003
      ```
       Application Service:
       ```bash
-     locust -f locustfile.py --host http://localhost:8004
+     locust -f application_locustfile.py --host http://localhost:8004
      ```
 
 
