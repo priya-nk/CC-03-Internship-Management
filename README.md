@@ -84,13 +84,22 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 
 ### API Specifications & Interactive Documentation
 
+* **Student Service API:** [http://localhost:8001/docs](http://localhost:8001/docs)
 * **Student Service API:** [http://localhost:8002/docs](http://localhost:8002/docs)
 * **Internship Service API:** [http://localhost:8003/docs](http://localhost:8003/docs)
 * **Application Service API:** [http://localhost:8004/docs](http://localhost:8004/docs)
 
 ### Sample Endpoints & Payloads
 
-#### 1. Register Student (`POST /students`)
+#### 1. Login Student (`POST /students`)
+```json
+{
+  "email": "asha@example.com",
+  "password": "Test@123"
+}
+```
+
+#### 2. Register Student (`POST /students`)
 ```json
 {
   "name": "Asha",
@@ -100,7 +109,7 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 }
 ```
 
-#### 2. Create Internship Listing (`POST /internships`)
+#### 3. Create Internship Listing (`POST /internships`)
 ```json
 {
   "title": "Backend Intern",
@@ -110,7 +119,7 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 }
 ```
 
-#### 3. Submit Application (`POST /applications`)
+#### 4. Submit Application (`POST /applications`)
 ```json
 {
   "student_id": 1,
@@ -118,7 +127,7 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 }
 ```
 
-#### 4. Update Application Status (`PATCH /applications/{id}/status`)
+#### 5. Update Application Status (`PATCH /applications/{id}/status`)
 ```json
 {
   "status": "accepted"
