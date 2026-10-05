@@ -40,3 +40,4 @@ volumes:
   student_data:
   internship_data:
   application_data:
+  authentication_data:
