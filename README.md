@@ -133,14 +133,14 @@ Each service is an independent FastAPI application with dedicated endpoints and 
 Each service contains its own `Dockerfile` and builds into a standalone image.
 
 ### Docker Hub Image Repositories
-* **Authentication Service:** `ananyaabhat/student-service:latest`
+* **Authentication Service:** `soumyasurpur/authentication-service:latest`
 * **Student Service:** `ananyaabhat/student-service:latest`
 * **Internship Service:** `bhagyashree028/internship-service:v1`
 * **Application Service:** `priya721k/application-service:v1`
 
 #### Pull pre-built images from Docker Hub:
 ```bash
-docker pull 
+docker pull soumyasurpur/authentication-service:latest
 docker pull ananyaabhat/student-service:latest
 docker pull bhagyashree028/internship-service:v1
 docker pull priya721k/application-service:v1
@@ -270,6 +270,20 @@ Load testing is conducted against target service endpoints using **Locust** whil
 | **W5** | 16 | 10.51 | 50.4 | 0 | 16.31 | 54.16 |
 
 ---
+
+## Graphs:
+### Concurrent requests vs Average Response Time
+<img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/cac14af2-0a10-42c0-b0fd-27ca4f8ad4b5" />
+
+### Concurrent requests vs Throughput
+<img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/0ebde50d-b0ae-4abf-85ee-a09a0d133f3d" />
+
+### Concurrent requests vs CPU Utilization
+<img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/827a3d95-a808-4176-baf2-b740a251f362" />
+
+### Concurrent requests vs Memory Utilization
+<img width="2400" height="1500" alt="image" src="https://github.com/user-attachments/assets/f2d6e345-abed-4220-a5fb-be550823b429" />
+
 
 ## Checkpoint 5: Analyze and Present the Results
 
