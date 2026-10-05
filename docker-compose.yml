@@ -1,4 +1,14 @@
 services:
+
+  authentication:
+    image: soumyasurpur/auth-service:latest
+    ports:
+      - "8004:8000"
+    environment:
+      DATABASE_URL: sqlite:////data/applications.db
+    volumes:
+      - application_data:/data
+
   student:
     image: ananyaabhat/student-service:latest
     ports:
